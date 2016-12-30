@@ -61,7 +61,9 @@ static void lcd_control_temperature_preheat_abs_settings_menu();
 static void lcd_control_motion_menu();
 static void lcd_control_volumetric_menu();
 #ifdef DOGLCD
+#ifndef FULL_GRAPHIC_SMALL_PANEL
 static void lcd_set_contrast();
+#endif
 #endif
 static void lcd_control_retract_menu();
 static void lcd_sdcard_menu();
@@ -896,6 +898,7 @@ static void lcd_control_volumetric_menu()
 }
 
 #ifdef DOGLCD
+#ifndef FULL_GRAPHIC_SMALL_PANEL
 static void lcd_set_contrast()
 {
     if (encoderPosition != 0)
@@ -913,6 +916,7 @@ static void lcd_set_contrast()
     }
     if (LCD_CLICKED) lcd_goto_menu(lcd_control_menu);
 }
+#endif
 #endif
 
 #ifdef FWRETRACT
@@ -1333,7 +1337,7 @@ void lcd_reset_alert_level()
     lcd_status_message_level = 0;
 }
 
-#ifdef DOGLCD
+#if defined(DOGLCD) && !defined(FULL_GRAPHIC_SMALL_PANEL)
 void lcd_setcontrast(uint8_t value)
 {
     lcd_contrast = value & 63;

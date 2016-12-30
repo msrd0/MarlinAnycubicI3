@@ -268,7 +268,7 @@ int EtoPPressure=0;
 #endif
 
 #ifdef FWRETRACT
-  bool autoretract_enabled=false;
+  bool autoretract_enabled=true;
   bool retracted[EXTRUDERS]={false
     #if EXTRUDERS > 1
     , false
@@ -414,6 +414,7 @@ void serial_echopair_P(const char *s_P, double v)
 void serial_echopair_P(const char *s_P, unsigned long v)
     { serialprintPGM(s_P); SERIAL_ECHO(v); }
 
+// !!Anycubic!! Stock firmware always uses the else part
 #ifdef SDSUPPORT
   #include "SdFatUtil.h"
   int freeMemory() { return SdFatUtil::FreeRam(); }

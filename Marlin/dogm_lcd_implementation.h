@@ -80,6 +80,12 @@ U8GLIB_ST7920_128X64_RRD u8g(0);
 #elif defined(MAKRPANEL)
 // The MaKrPanel display, ST7565 controller as well
 U8GLIB_NHD_C12864 u8g(DOGLCD_CS, DOGLCD_A0);
+#elif defined(FULL_GRAPHIC_SMALL_PANEL)
+// The FULL_GRAPHIC_SMALL_PANEL display
+U8GLIB_SMALL12864 u8g(DOGLCD_CS, DOGLCD_A0);
+#elif defined(MULTIPANEL)
+// The MULTIPanel OLED display
+U8GLIB_SSD1309_128X64 u8g(DOGLCD_CS, DOGLCD_A0);
 #else
 // for regular DOGM128 display with HW-SPI
 U8GLIB_DOGM128 u8g(DOGLCD_CS, DOGLCD_A0);	// HW-SPI Com: CS, A0
@@ -92,7 +98,9 @@ static void lcd_implementation_init()
 	digitalWrite(LCD_PIN_BL, HIGH);
 #endif
 
-        u8g.setContrast(lcd_contrast);	
+#ifndef FULL_GRAPHIC_SMALL_PANEL
+	u8g.setContrast(lcd_contrast);
+#endif
 	//  Uncomment this if you have the first generation (V1.10) of STBs board
 	//  pinMode(17, OUTPUT);	// Enable LCD backlight
 	//  digitalWrite(17, HIGH);
@@ -121,8 +129,11 @@ static void lcd_implementation_init()
 	u8g.firstPage();
 	do {
 			// RepRap init bmp
-			u8g.drawBitmapP(0,0,START_BMPBYTEWIDTH,START_BMPHEIGHT,start_bmp);
+			//u8g.drawBitmapP(0,0,START_BMPBYTEWIDTH,START_BMPHEIGHT,start_bmp);
+			// Anycubic init bmp
+			u8g.drawXBMP((128-u8g_logo_width)/2, 0, u8g_logo_width, u8g_logo_height, u8g_logo_bits);
 			// Welcome message
+			// !!Anycubic!! The following block is entirely enquoted in stock firmware
 			u8g.setFont(u8g_font_6x10_marlin);
 			u8g.drawStr(62,10,"MARLIN"); 
 			u8g.setFont(u8g_font_5x8);
@@ -458,6 +469,7 @@ static void lcd_implementation_quick_feedback()
 
 #if BEEPER > -1
     SET_OUTPUT(BEEPER);
+	// !!Anycubic!! stock firmware runs until i<30 with a delay of 1
     for(int8_t i=0;i<10;i++)
     {
 		WRITE(BEEPER,HIGH);

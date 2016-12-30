@@ -771,8 +771,8 @@
       #ifdef REPRAP_DISCOUNT_SMART_CONTROLLER
         #define BEEPER 37
 
-        #define BTN_EN1 31
-        #define BTN_EN2 33
+        #define BTN_EN1 33
+        #define BTN_EN2 31
         #define BTN_ENC 35
 
         #define SDCARDDETECT 49
@@ -789,6 +789,47 @@
         #define BTN_ENC -1
         #define LCD_SDSS 53
         #define SDCARDDETECT 49
+      #elif defined(FULL_GRAPHIC_SMALL_PANEL)
+        #define BEEPER 37
+        // Pins for DOM SPI LCD Support
+        #define DOGLCD_A0  23
+        #define DOCLCD_CS  27
+        #define LCD_PIN_BL 25 // backlight LED on PA3
+        
+        #define KILL_PIN 41
+        // GLCD features
+        //#define LCD_CONTRAST 190
+        // Uncomment screen orientation
+        // #define LCD_SCREEN_ROT_90
+        // #define LCD_SCREEN_ROT_180
+        // #define LCD_SCREEN_ROT_270
+        //The encoder and click button
+        #define BTN_EN1 33
+        #define BTN_EN2 31
+        #define BTN_ENC 35  //the click switch
+        //not connected to a pin
+        #define SDCARDDETECT 49
+      #elif defined(MULTIPANEL)
+         #define BEEPER 37
+         // Pins for DOGM SPI LCD Support
+         #define DOGLCD_A0  17
+         #define DOGLCD_CS  16
+         #define LCD_PIN_BL	23	// backlight LED on A11/D65
+         #define SDSS   53
+         
+         #define KILL_PIN 64
+         // GLCD features
+         //#define LCD_CONTRAST 190
+         // Uncomment screen orientation
+         // #define LCD_SCREEN_ROT_90
+         // #define LCD_SCREEN_ROT_180
+         // #define LCD_SCREEN_ROT_270
+         //The encoder and click button
+         #define BTN_EN1 31
+         #define BTN_EN2 33
+         #define BTN_ENC 35  //the click switch
+         //not connected to a pin
+         #define SDCARDDETECT 49
       #else
         //arduino pin which triggers an piezzo beeper
         #define BEEPER 33  // Beeper on AUX-4
@@ -901,6 +942,7 @@
 
 // SPI for Max6675 Thermocouple
 
+// !!Anycubic!! stock firmware uses the two pins that shouldn't be used ... (comment not present in stock firmware)
 #ifndef SDSUPPORT
 // these pins are defined in the SD library if building with SD support
   #define SCK_PIN          52

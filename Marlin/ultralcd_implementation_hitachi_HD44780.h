@@ -1,6 +1,8 @@
 #ifndef ULTRA_LCD_IMPLEMENTATION_HITACHI_HD44780_H
 #define ULTRA_LCD_IMPLEMENTATION_HITACHI_HD44780_H
 
+// !!Anycubic!! Some strange values are different than stock firmware but since i got no clue what they do i left them upstream
+
 /**
 * Implementation of the LCD display routines for a Hitachi HD44780 display. These are common LCD character displays.
 * When selecting the Russian language, a slightly different LCD implementation is used to handle UTF8 characters.

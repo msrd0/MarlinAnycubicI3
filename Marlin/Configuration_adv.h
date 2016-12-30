@@ -242,6 +242,7 @@
 #endif
 
 //Comment to disable setting feedrate multiplier via encoder
+// !!Anycubic!! This section was not present in the stock firmware
 #ifdef ULTIPANEL
     #define ULTIPANEL_FEEDMULTIPLY
 #endif
@@ -286,6 +287,7 @@
 //=============================Additional Features===========================
 //===========================================================================
 
+// !!Anycubic!! This section was not present in the stock firmware
 //#define CHDK 4        //Pin for triggering CHDK to take a picture see how to use it here http://captain-slow.dk/2014/03/09/3d-printing-timelapses/
 #define CHDK_DELAY 50 //How long in ms the pin should stay HIGH before going LOW again
 
@@ -423,16 +425,18 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 // the moves are than replaced by the firmware controlled ones.
 
 // #define FWRETRACT  //ONLY PARTIALLY TESTED
+// !!Anycubic!! Though FWRETRACT was never defined default values are from Marlin_main.cpp:234 in stock firmware
 #ifdef FWRETRACT
-  #define MIN_RETRACT 0.1                //minimum extruded mm to accept a automatic gcode retraction attempt
   #define RETRACT_LENGTH 3               //default retract length (positive mm)
   #define RETRACT_LENGTH_SWAP 13         //default swap retract length (positive mm), for extruder change
-  #define RETRACT_FEEDRATE 45            //default feedrate for retracting (mm/s)
-  #define RETRACT_ZLIFT 0                //default retract Z-lift
+  #define RETRACT_FEEDRATE 17*60         //default feedrate for retracting (mm/s)
+  #define RETRACT_ZLIFT 0.8              //default retract Z-lift
   #define RETRACT_RECOVER_LENGTH 0       //default additional recover length (mm, added to retract length when recovering)
   #define RETRACT_RECOVER_LENGTH_SWAP 0  //default additional swap recover length (mm, added to retract length when recovering from extruder change)
-  #define RETRACT_RECOVER_FEEDRATE 8     //default feedrate for recovering from retraction (mm/s)
+  #define RETRACT_RECOVER_FEEDRATE 8*60  //default feedrate for recovering from retraction (mm/s)
 #endif
+// !!Anycubic!! Stock firmware defines this eventhough FWRETRACT isn't defined, so I moved it after the if block
+#define MIN_RETRACT 0.1                //minimum extruded mm to accept a automatic gcode retraction attempt
 
 //adds support for experimental filament exchange support M600; requires display
 #ifdef ULTIPANEL
