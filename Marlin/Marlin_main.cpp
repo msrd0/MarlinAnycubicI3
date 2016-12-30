@@ -2666,7 +2666,7 @@ Sigma_Exit:
       #endif
       #ifdef ULTIPANEL
         powersupply = false;
-        LCD_MESSAGEPGM(MACHINE_NAME" "MSG_OFF".");
+        LCD_MESSAGEPGM(MACHINE_NAME " " MSG_OFF ".");
         lcd_update();
       #endif
 	  break;
