@@ -42,7 +42,7 @@ Next, we need to connect the two devices. The ISP header of the motherboard is n
 Take 2 Male-Female-Jumper and connect them to GND and MISO. Connect another 3 Female-Female-Jumper to MOSI, SCK
 and GND. Now, use 2 Resistors that are about 2:1 (I've used one 1.5k and one 2.7k) and wire it like this:
 
-![ISP BB](https://github.com/msrd0/MarlinAnycubicI3/anycubic-1.0.2-2/isp_bb.svg)
+![ISP BB](https://raw.githubusercontent.com/msrd0/MarlinAnycubicI3/anycubic-1.0.2-2/isp_bb.svg)
 
 Now, open `/etc/avrdude.conf` on the Pi, find and uncomment section `linuxgpio` and change the values to this:
 
