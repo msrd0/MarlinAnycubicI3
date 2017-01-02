@@ -1,57 +1,65 @@
-# Marlin 3D Printer Firmware
+# Marlin 3D Printer Firmware for Anycubic I3
 <img align="right" src="Documentation/Logo/Marlin%20Logo%20GitHub.png" />
 
- Additional documentation can be found in [our wiki](https://github.com/MarlinFirmware/Marlin/wiki/Main-Page).
+ Marlin is the 3D Printer Firmware running on my Anycubic I3 printer. The stock firmware in Dec 2016 was based
+ on Marlin 1.0.0 which was not able to compile with gcc 6.2.1 due to some added typedefs in the standard library,
+ so I decided to update it to Marlin 1.0.2, the latest stable version as of Jan 2017. I compared the stock firmware
+ to the original marlin source code and applied all changes that looked somewhat usefull to me and ignored those
+ that didn't. **I cannot guarantee that my modified firmware will work. If you choose to install it, I am not
+ responsible for whatever damages or other things might happen.**
 
-## Release Branch
+## Compile it
 
-The Release branch contains the latest tagged version of Marlin (currently 1.0.2-2 – October 2016). It also includes a version 1.0.1 (December 2014). Any version of Marlin before 1.0.1 (when we started tagging versions) can be collectively referred to as Marlin 1.0.0.
+To compile Marvin, open Arduino IDE, choose Arduino Mega 2560 as your board (I have a Ramps/1.4-compatible TRIGORILLA
+motherboard on my printer) and compile the firmware. Make sure that there are no errors. Next, export the firmware
+to a flashable .hex file. You probably want to use the one with bootloader.
 
-## Patches - 1.0.x Branch
+## Flashing Marlin
 
-Any patches developed for this family of releases will be found on the [1.0.x branch](https://github.com/MarlinFirmware/Marlin/tree/1.0.x) of this repository.
+Go and install yourself avrdude. I'd recommend using the latest development version, not the release. Don't forget
+to add your user to the `uucp` group to have access to the printer when connected via USB. For ArchLinux users,
+go and install `avrdude-svn` from the AUR.
 
-## This Repository is Not For Feature Development
+The first thing you should do is to download the currently installed firmware, do this by executing
 
-Development of future versions of Marlin is ongoing. However, to keep issues separate, that effort takes place in a companion [Development Repository](https://github.com/MarlinFirmware/MarlinDev/). Please make all suggestions for future features in that project. Issues raised here should be restricted to errors in the tagged releases.
+    avrdude -p m2560 -c stk500 -U flash:r:marlin-orig.hex:i -v
 
-## Current Status: In Development
+when the printer is connected via usb. You should have a file called `marlin-orig.hex` with the pre-installed firmware.
+Keep it.
 
-Marlin development is being accelerated to catch up with a long list of issues. Check the Issues and Pull Requests links on the right to to see what we are currently working on.
+To flash Marlin, you could try to do it via USB as well:
 
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/2224/badge.svg)](https://scan.coverity.com/projects/2224)
-[![Travis Build Status](https://travis-ci.org/MarlinFirmware/Marlin.svg)](https://travis-ci.org/MarlinFirmware/Marlin)
+    avrdude -p m2560 -c stk500 -U flash:w:Marlin.ino.with_bootloader.mega.hex -v
 
-##### [RepRap.org Wiki Page](http://reprap.org/wiki/Marlin)
+If this works for you, be happy. In my case it didn't work so I decided to use the ISP headers of my motherboard
+and a RaspberryPi to upload the firmware. Install your Pi next to the printer, power it on and connect it to the
+internet. Open an SSH shell and install avrdude. Put the firmware file on the Pi.
 
-## Credits
+Next, we need to connect the two devices. The ISP header of the motherboard is numbered, the pins are like this:
 
-The current Marlin dev team consists of:
+![Arduino ISP header](https://www.arduino.cc/en/uploads/Tutorial/ISP.png)
 
- - Scott Lahteine [@thinkyhead] - English
- - Roxanne Neufeld [@Roxy-3DPrintBoard] - English
- - Andreas Hardtung [@AnHardt] - Deutsch, English
- - [@Wurstnase] - Deutsch, English
- - [@fmalpartida] - English, Spanish
- - [@CONSULitAS] - Deutsch, English
- - [@maverikou]
- - Chris Palmer [@nophead]
- - [@paclema]
- - [@epatel]
- - Erik van der Zalm [@ErikZalm]
- - David Braam [@daid]
- - Bernhard Kubicek [@bkubicek]
+Take 2 Male-Female-Jumper and connect them to GND and MISO. Connect another 3 Female-Female-Jumper to MOSI, SCK
+and GND. Now, use 2 Resistors that are about 2:1 (I've used one 1.5k and one 2.7k) and wire it like this:
 
-More features have been added by:
-  - Alberto Cotronei [@MagoKimbra]
-  - Lampmaker,
-  - Bradley Feldman,
-  - and others...
+![ISP BB](https://github.com/msrd0/MarlinAnycubicI3/raw/anycubic-1.0.2-2/isp_bb.svg)
 
-## License
+Now, open `/etc/avrdude.conf` on the Pi, find and uncomment section `linuxgpio` and change the values to this:
 
-Marlin is published under the [GPL license](/COPYING.md) because we believe in open development. The GPL comes with both rights and obligations. Whether you use Marlin firmware as the driver for your open or closed-source product, you must keep Marlin open, and you must provide your compatible Marlin source code to end users upon request. The most straightforward way to comply with the Marlin license is to make a fork of Marlin on Github, perform your modifications, and direct users to your modified fork.
+```
+programmer
+  id    = "linuxgpio";
+  desc  = "Use the Linux sysfs interface to bitbang GPIO lines";
+  type  = "linuxgpio";
+  reset = 14;
+  sck   = 11;
+  mosi  = 10;
+  miso  = 9;
+;
+```
 
-While we can't prevent the use of this code in products (3D printers, CNC, etc.) that are closed source or crippled by a patent, we would prefer that you choose another firmware or, better yet, make your own.
+Now, run
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ErikZalm&url=https://github.com/MarlinFirmware/Marlin&title=Marlin&language=&tags=github&category=software)
+    avrdude -p m2560 -c linuxgpio -U flash:w:Marlin.ino.with_bootloader.mega.hex -v
+
+and you are done!
