@@ -73,6 +73,10 @@
 #ifndef SOURCE_CODE_URL
   #define SOURCE_CODE_URL "https://github.com/MarlinFirmware/Marlin"
 #endif
+#ifdef FIRMWARE_URL
+  #undef FIRMWARE_URL
+#endif
+#define FIRMWARE_URL SOURCE_CODE_URL
 
 #ifndef DETAILED_BUILD_VERSION
   #error BUILD_VERSION Information must be specified
