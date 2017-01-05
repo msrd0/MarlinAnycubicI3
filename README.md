@@ -7,6 +7,9 @@
  to the original marlin source code and applied all changes that looked somewhat usefull to me and ignored those
  that didn't. **I cannot guarantee that my modified firmware will work. If you choose to install it, I am not
  responsible for whatever damages or other things might happen.**
+ 
+ If you are looking for built-in **Auto Bed Leveling**, take a look at the
+ [anycubic-autolevel](https://github.com/msrd0/MarlinAnycubicI3/tree/anycubic-autolevel) branch.
 
 ## Compile it
 
