@@ -355,6 +355,12 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
 #ifdef ENABLE_AUTO_BED_LEVELING
 
+  // these are the offsets to the probe relative to the extruder tip (Hotend - Probe)
+  // X and Y offsets must be integers
+  #define X_PROBE_OFFSET_FROM_EXTRUDER 55
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER -45
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -0.6
+
 // There are 2 different ways to pick the X and Y locations to probe:
 
 //  - "grid" mode
@@ -375,10 +381,10 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
   #ifdef AUTO_BED_LEVELING_GRID
 
     // set the rectangle in which to probe
-    #define LEFT_PROBE_BED_POSITION 0
-    #define RIGHT_PROBE_BED_POSITION 120
-    #define BACK_PROBE_BED_POSITION 200
-    #define FRONT_PROBE_BED_POSITION 38
+    #define LEFT_PROBE_BED_POSITION (X_PROBE_OFFSET_FROM_EXTRUDER)
+    #define RIGHT_PROBE_BED_POSITION (120+X_PROBE_OFFSET_FROM_EXTRUDER)
+    #define FRONT_PROBE_BED_POSITION 20
+    #define BACK_PROBE_BED_POSITION (200+Y_PROBE_OFFSET_FROM_EXTRUDER)
 
      // set the number of grid points per dimension
      // I wouldn't see a reason to go above 3 (=9 probing points on the bed)
@@ -397,13 +403,6 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
       #define ABL_PROBE_PT_3_Y 20
 
   #endif // AUTO_BED_LEVELING_GRID
-
-
-  // these are the offsets to the probe relative to the extruder tip (Hotend - Probe)
-  // X and Y offsets must be integers
-  #define X_PROBE_OFFSET_FROM_EXTRUDER 0
-  #define Y_PROBE_OFFSET_FROM_EXTRUDER 0
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER -1.4
 
   #define Z_RAISE_BEFORE_HOMING 10       // (in mm) Raise Z before homing (G28) for Probe Clearance.
                                         // Be sure you have this distance over your Z_MAX_POS in case
@@ -435,8 +434,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 
   #ifdef Z_SAFE_HOMING
 
-    #define Z_SAFE_HOMING_X_POINT LEFT_PROBE_BED_POSITION    // X point for Z homing when homing all axis (G28)
-    #define Z_SAFE_HOMING_Y_POINT FRONT_PROBE_BED_POSITION   // Y point for Z homing when homing all axis (G28)
+    #define Z_SAFE_HOMING_X_POINT (X_MAX_POS/2)    // X point for Z homing when homing all axis (G28)
+    #define Z_SAFE_HOMING_Y_POINT (Y_MAX_POS/2)    // Y point for Z homing when homing all axis (G28)
 
   #endif
 
