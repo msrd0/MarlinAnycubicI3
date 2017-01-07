@@ -42,8 +42,8 @@ Next, we need to connect the two devices. The ISP header of the motherboard is n
 
 ![Arduino ISP header](https://www.arduino.cc/en/uploads/Tutorial/ISP.png)
 
-Take 2 Male-Female-Jumper and connect them to GND and MISO. Connect another 3 Female-Female-Jumper to MOSI, SCK
-and GND. Now, use 2 Resistors that are about 2:1 (I've used one 1.5k and one 2.7k) and wire it like this:
+You'll need some jumpers, a N-channel MOSFET, 2 pull-down resistors at around 10k and 2 resistors that are
+about 2:1 (I've used one 1.5k and one 2.7k). Connect everything like this:
 
 ![ISP Breadboard](https://raw.githubusercontent.com/msrd0/MarlinAnycubicI3/anycubic-1.0.2-2/isp_bb.png)
 
