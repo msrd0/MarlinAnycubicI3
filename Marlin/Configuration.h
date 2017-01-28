@@ -359,7 +359,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
   // X and Y offsets must be integers
   #define X_PROBE_OFFSET_FROM_EXTRUDER 55
   #define Y_PROBE_OFFSET_FROM_EXTRUDER -45
-  #define Z_PROBE_OFFSET_FROM_EXTRUDER -0.6
+  #define Z_PROBE_OFFSET_FROM_EXTRUDER -0.4
 
 // There are 2 different ways to pick the X and Y locations to probe:
 
